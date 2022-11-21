@@ -13,7 +13,7 @@ public class TestableHtml {
         private PageData pageData;
         private boolean includeSuiteSetup;
         private WikiPage wikiPage;
-            private StringBuffer buffer;
+        private StringBuffer buffer;
 
         public TestableHtmlBuilder(PageData pageData, boolean includeSuiteSetup) {
                 this.pageData = pageData;
@@ -23,12 +23,12 @@ public class TestableHtml {
             }
 
             public String invoke() throws Exception {
-                if (isTestPage()) {
+                if (includeSuiteSetup) {
                     includeSetups();
                 }
 
                 buffer.append(pageData.getContent());
-                if (isTestPage()) {
+                if (includeSuiteSetup) {
                     includeTearDowns();
                 }
 
@@ -36,9 +36,7 @@ public class TestableHtml {
                 return pageData.getHtml();
             }
 
-            private boolean isTestPage() throws Exception {
-            return pageData.hasAttribute("Test");
-        }
+
 
         private void includeTearDowns() throws Exception {
             includeInherited("teardown", "TearDown");
